@@ -1,0 +1,11 @@
+include config.example.toml
+include run.sh launch.command
+recursive-include examples *.toml
+prune .local
+prune credentials
+prune data
+prune work
+exclude config.toml
+exclude README.local.md
+exclude VALIDATION.md
+global-exclude __pycache__ *.py[cod]

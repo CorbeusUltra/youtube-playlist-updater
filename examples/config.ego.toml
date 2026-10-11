@@ -1,0 +1,31 @@
+# Standalone example for the public ego channel.
+# Copy to your own config.toml and supply a destination playlist you own.
+[settings]
+timezone = "UTC"
+
+[auth]
+oauth_port = 0
+
+[profiles.ego]
+label = "ego"
+channel = "@ego_one"
+credential_store = "common"
+minimum_seconds = 0
+review_max_seconds = 180
+# Up to 180 seconds inclusive: review; above 180 seconds: add.
+# No duration is excluded automatically. Review short uploads individually.
+# Duration alone does not distinguish Shorts from short regular videos.
+
+# Omit initialization to choose interactively on the first run.
+# Use "all" for a new empty playlist and the complete accessible history.
+# Use "latest" to resume after your newest selected video in a curated playlist.
+# "future" and "date" are also available.
+# If choosing "date", set start_date to your own quoted YYYY-MM-DD.
+
+[profiles.ego.playlists.videos]
+id = "PL_REPLACE_WITH_YOUR_PLAYLIST_ID"
+label = "My ego selection"
+order = "published"
+youtube_sort = true
+update_description = false
+description_every_scan = false

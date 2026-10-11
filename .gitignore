@@ -1,21 +1,21 @@
-# Secret
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+.DS_Store
+credentials/
+data/
+.env
+work/
+config.toml
+README.local.md
+.local/
+VALIDATION.md
+build/
+dist/
+*.pyc
+.mypy_cache/
+.ruff_cache/
 token.json
 credentials.json
 playlist_data.json
-.env
-
-# venv
-.venv
-.venv/
-
-# Caches Python
-__pycache__/
-*.pyc
-.pytest_cache/
-.mypy_cache/
-
-# Fichiers système macOS
-.DS_Store
-
-# Packaging Python
-*.egg-info/

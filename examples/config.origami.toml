@@ -1,0 +1,30 @@
+# Standalone example for the public Origami Beats channel.
+# Copy to your own config.toml and supply a destination playlist you own.
+[settings]
+timezone = "UTC"
+
+[auth]
+oauth_port = 0
+
+[profiles.origami]
+label = "Origami Beats"
+channel = "UCmcF_CZ4oA3MkFdUZ5friXA"
+credential_store = "common"
+minimum_seconds = 60
+review_max_seconds = 120
+# Below 60 seconds: exclude; 60–120 inclusive: review; above 120: add.
+# These thresholds are selection preferences, not a reliable Shorts detector.
+
+# Omit initialization to choose interactively on the first run.
+# Use "all" for a new empty playlist and the complete accessible history.
+# Use "latest" to resume after your newest selected video in a curated playlist.
+# "future" and "date" are also available.
+# If choosing "date", set start_date to your own quoted YYYY-MM-DD.
+
+[profiles.origami.playlists.beats]
+id = "PL_REPLACE_WITH_YOUR_PLAYLIST_ID"
+label = "My Origami Beats selection"
+order = "published"
+youtube_sort = true
+update_description = false
+description_every_scan = false

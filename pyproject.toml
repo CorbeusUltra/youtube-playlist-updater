@@ -1,26 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "playlist-updater"
-version = "0.1.0"
-description = "YouTube playlist update script"
+name = "youtube-playlist-updater"
+version = "0.2.0"
+description = "Configurable YouTube playlist synchronization with interactive review"
 readme = "README.md"
-requires-python = ">=3.10"
-dependencies = [
-  "google-api-python-client",
-  "google-auth",
-  "google-auth-oauthlib",
-  "python-dotenv"
-]
+requires-python = ">=3.11"
+dependencies = ["google-api-python-client>=2,<3", "google-auth-oauthlib>=1,<2", "rich>=13,<16", "questionary>=2,<3"]
 
 [project.optional-dependencies]
-dev = [
-  "pytest>=8.0,<9.0"
-]
+dev = ["pytest>=8,<10"]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-
-[tool.setuptools]
-package-dir = {"" = "src"}
+[project.scripts]
+youtube-playlist-updater = "youtube_playlist_updater.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

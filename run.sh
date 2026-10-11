@@ -1,6 +1,9 @@
-#!/usr/bin/env bash
-# Lance playlist_updater. Fonctionne depuis n'importe quel dossier.
-cd "$(dirname "$0")" || exit 1
-# Rend le lancement indépendant de l'install editable (survit à un déplacement)
-export PYTHONPATH="src${PYTHONPATH:+:$PYTHONPATH}"
-exec .venv/bin/python3.14 script/run.py "$@"
+#!/bin/bash
+set -eu
+cd "$(dirname "$0")"
+export PYTHONPATH="$PWD/src${PYTHONPATH:+:$PYTHONPATH}"
+if [ ! -x .venv/bin/python ]; then
+    printf 'Python environment missing. See the README for installation instructions.\n' >&2
+    exit 1
+fi
+exec .venv/bin/python -m youtube_playlist_updater.cli "$@"

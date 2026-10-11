@@ -1,0 +1,31 @@
+# Copy to config.toml, then replace the channel and playlist identifiers.
+# This example excludes uploads below one minute and reviews one-to-two-minute
+# uploads. Duration filtering is not an exact YouTube Shorts detector.
+[settings]
+timezone = "UTC"
+
+[auth]
+oauth_port = 0
+
+[profiles.example]
+label = "My channel"
+channel = "@YOUR_CHANNEL_HANDLE"  # Or a UC... channel ID.
+credential_store = "common"
+minimum_seconds = 60
+review_max_seconds = 120  # Zero disables human review by duration.
+# Below 60: excluded; 60–120 inclusive: reviewed; above 120: added.
+# To accept every finished upload: set both values to zero.
+
+# Omit initialization to choose interactively on the first run.
+# Required before an automated first run: "future", "latest", "all" or "date".
+# initialization = "date"
+# start_date = "2026-06-01"  # Quoted YYYY-MM-DD; includes this day from 00:00.
+
+[profiles.example.playlists.videos]
+id = "PL_REPLACE_WITH_YOUR_PLAYLIST_ID"
+label = "My playlist"
+order = "published"
+youtube_sort = true
+update_description = false
+description_every_scan = false
+# description = "Optional managed text"  # Used only if update_description = true.
