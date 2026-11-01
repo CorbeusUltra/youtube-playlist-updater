@@ -2,6 +2,12 @@ import webbrowser
 from dataclasses import replace
 
 import questionary
+from prompt_toolkit.application import Application
+from prompt_toolkit.formatted_text import FormattedText
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.layout import Layout, Window
+from prompt_toolkit.layout.controls import FormattedTextControl
+from prompt_toolkit.styles import Style
 from rich.panel import Panel
 from rich.prompt import IntPrompt, Prompt
 from rich.table import Table
@@ -40,12 +46,68 @@ def select_option(title, options, default):
 
 
 def select_profiles(console, profiles: dict[str, Profile]) -> list[Profile]:
-    options = [(key, f"{profile.label} — {len(profile.targets)} playlist{'s' if len(profile.targets) > 1 else ''}") for key, profile in profiles.items()]
-    options += [("all", "All configured profiles"), ("quit", "Quit")]
-    selected = select_option("Which playlists would you like to update?", options, "all")
-    if selected == "quit":
+    keys = list(profiles)
+    if not keys:
         return []
-    return list(profiles.values()) if selected == "all" else [profiles[selected]]
+    # The last two rows are explicit actions, not playlist keys.
+    index = 0
+    selected = set()
+    row_count = len(keys) + 2
+
+    def content():
+        fragments = [
+            ("class:prompt", "Which playlists would you like to update?\n"),
+            ("class:hint", "↑/↓ move  Enter toggle or confirm  Ctrl-C cancel\n"),
+        ]
+        rows = []
+        for key in keys:
+            profile = profiles[key]
+            count = len(profile.targets)
+            mark = "[x]" if key in selected else "[ ]"
+            rows.append(f"{mark} {profile.label} — {count} playlist{'s' if count > 1 else ''}")
+        rows.extend(["Start selected profiles", "Cancel"])
+        for position, label in enumerate(rows):
+            active = position == index
+            fragments.append(("class:selected" if active else "", f"{'❯ ' if active else '  '}{label}\n"))
+        fragments.append(("class:hint", f"  {len(selected)} selected\n"))
+        return FormattedText(fragments)
+
+    bindings = KeyBindings()
+
+    @bindings.add("up")
+    def up(event):
+        nonlocal index
+        index = (index - 1) % row_count
+
+    @bindings.add("down")
+    def down(event):
+        nonlocal index
+        index = (index + 1) % row_count
+
+    @bindings.add("enter")
+    def enter(event):
+        if index == row_count - 1:
+            event.app.exit(result=[])
+        elif index == row_count - 2:
+            event.app.exit(result=[profiles[key] for key in keys if key in selected])
+        else:
+            key = keys[index]
+            if key in selected:
+                selected.remove(key)
+            else:
+                selected.add(key)
+
+    @bindings.add("c-c")
+    def interrupt(event):
+        event.app.exit(exception=KeyboardInterrupt())
+
+    return Application(
+        layout=Layout(Window(FormattedTextControl(content, focusable=True), wrap_lines=True)),
+        key_bindings=bindings,
+        full_screen=False,
+        erase_when_done=True,
+        style=Style.from_dict({"prompt": "fg:#3273dc", "selected": "fg:#3273dc", "hint": "fg:#808080"}),
+    ).run()
 
 
 def initialization_chooser(console, profile):

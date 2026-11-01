@@ -1,3 +1,5 @@
+> **Heads-up : this was vibe-coded.** Every line in this repo was written in an extended conversation with AI. No human reviewed each commit for correctness line-by-line. Treat it as a hobby-grade tool that happens to work, not as battle-tested software. Contributions, bug reports, and "actually this is wrong" corrections are all very welcome.
+
 # YouTube playlist updater
 
 A Python command-line tool that keeps your YouTube playlists up to date with uploads from a channel. Set duration thresholds in `config.toml` to exclude short uploads and optionally review borderline videos. The same rules work with any channel. Ambiguous videos can be reviewed with arrow-key menus; completed decisions are saved locally.
@@ -22,7 +24,7 @@ Try the menus without Google credentials or network access:
 ./run.sh --profile example --demo
 ```
 
-Use **↑/↓ to move, Enter to select, Ctrl+C to cancel**. Dates are text inputs. You can open an ambiguous video's link in your browser and return to make a decision. **Decide later** retains it for a subsequent run.
+In the profile menu, use **↑/↓ to move, Enter to toggle profiles, then choose Start selected profiles**. Choose Cancel or press Ctrl+C to stop. Other choice menus use **↑/↓ and Enter**. Dates are text inputs. You can open an ambiguous video's link in your browser and return to make a decision. **Decide later** retains it for a subsequent run.
 
 The installed `youtube-playlist-updater` command also works with an explicit configuration path, including when installed non-editably with `pip install .`:
 
